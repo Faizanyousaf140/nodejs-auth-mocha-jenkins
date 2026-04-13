@@ -1,6 +1,6 @@
 # Node.js Authentication App — Mocha/Chai + Jenkins CI/CD
 
-> Assignment project by **Faizan Yousaf** | Submitted: 2026-04-15
+> Assignment project by **Faizan Yousaf** | 
 
 ---
 
@@ -135,9 +135,9 @@ npm run test:ci
 
 | Type | Count | Status |
 |---|---|---|
-| Unit Tests | 12 | ✅ Pass |
-| Integration Tests | 18+ | ✅ Pass |
-| **Total** | **30+** | **✅ Pass** |
+| Unit Tests | 8 | ✅ Pass |
+| Integration Tests | 18 | ✅ Pass |
+| **Total** | **26** | **✅ Pass** |
 
 ### Unit Tests — Validation Logic
 
@@ -238,20 +238,6 @@ pipeline {
 }
 ```
 
----
-
-## Screenshots
-
-> Add screenshots in a `/screenshots` folder and reference them below.
-
-| Screenshot | Description |
-|---|---|
-| `screenshots/local-tests-passing.png` | All tests passing locally |
-| `screenshots/jenkins-build-success.png` | Jenkins successful build |
-| `screenshots/jenkins-test-report.png` | Jenkins HTML test report |
-
----
-
 ## Extra Credit
 
 - [x] Advanced edge-case testing (SQL injection, overflow, whitespace)
@@ -259,17 +245,7 @@ pipeline {
 - [ ] Email notifications in Jenkins (Email Extension Plugin)
 - [ ] Multi-branch Jenkins pipeline
 
----
-
-## Submission Artifacts
-
-- Video demonstration (2–3 minutes)
-- GitHub repository link
-- Screenshots (local passing results, Jenkins build, Jenkins report)
-
----
 
 ## Author
 
 **Faizan Yousaf**  
-Submission Date: 2026-04-15
