@@ -1,0 +1,328 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-mono,'Courier New',monospace)}
+.shell{background:#0d1117;color:#e6edf3;border-radius:var(--border-radius-lg);overflow:hidden;width:100%;font-size:13px}
+.titlebar{background:#161b22;border-bottom:0.5px solid #30363d;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.dot{width:12px;height:12px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.filename{flex:1;text-align:center;color:#8b949e;font-size:12px;font-family:var(--font-mono)}
+.tabs{display:flex;gap:2px;background:#0d1117;padding:0 16px;border-bottom:0.5px solid #21262d;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:8px 16px;font-size:12px;color:#8b949e;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;font-family:var(--font-mono);transition:color .15s}
+.tab.active{color:#58a6ff;border-bottom-color:#58a6ff}
+.tab:hover:not(.active){color:#c9d1d9}
+.content{padding:20px;min-height:320px;line-height:1.7}
+.hidden{display:none}
+.section-title{color:#58a6ff;font-weight:500;font-size:14px;margin-bottom:12px;letter-spacing:.5px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;font-family:var(--font-mono)}
+.badge.green{background:#0d4429;color:#3fb950}
+.badge.blue{background:#0c2d6b;color:#58a6ff}
+.badge.yellow{background:#341a00;color:#d29922}
+.badge.red{background:#3d1014;color:#f85149}
+.badge.purple{background:#272157;color:#bc8cff}
+.meta-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px}
+.meta-label{color:#8b949e;min-width:100px}
+.meta-val{color:#e6edf3}
+.divider{border:none;border-top:0.5px solid #21262d;margin:16px 0}
+.folder-tree{font-family:var(--font-mono);font-size:12px;line-height:1.8;color:#8b949e}
+.folder-tree .dir{color:#58a6ff}
+.folder-tree .file{color:#c9d1d9}
+.folder-tree .comment{color:#3fb950}
+.code-block{background:#161b22;border:0.5px solid #30363d;border-radius:6px;padding:12px 14px;font-family:var(--font-mono);font-size:12px;color:#e6edf3;margin:8px 0;overflow-x:auto}
+.code-block .cmd{color:#79c0ff}.code-block .flag{color:#d2a8ff}.code-block .str{color:#a5d6ff}
+.stage{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.stage-num{background:#1f2937;color:#58a6ff;border-radius:50%;width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;margin-top:2px}
+.stage-content{}
+.stage-title{color:#c9d1d9;font-weight:500;font-size:13px;margin-bottom:4px}
+.stage-desc{color:#8b949e;font-size:12px}
+.test-table{width:100%;border-collapse:collapse;font-size:12px}
+.test-table th{text-align:left;color:#8b949e;padding:6px 10px;border-bottom:0.5px solid #21262d;font-weight:500}
+.test-table td{padding:6px 10px;color:#c9d1d9;border-bottom:0.5px solid #161b22}
+.test-table tr:last-child td{border-bottom:none}
+.pass{color:#3fb950}.fail{color:#f85149}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info-card{background:#161b22;border:0.5px solid #21262d;border-radius:6px;padding:12px}
+.info-card-label{color:#8b949e;font-size:11px;margin-bottom:4px}
+.info-card-val{color:#e6edf3;font-size:13px;font-weight:500}
+.artifact-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid #21262d;font-size:12px}
+.artifact-row:last-child{border-bottom:none}
+.artifact-icon{color:#f0c234;font-size:14px}
+.artifact-name{color:#c9d1d9;flex:1}
+.checkpoint{background:#0d2a0d;border:0.5px solid #1a4a1a;border-radius:6px;padding:10px 14px;font-size:12px;color:#3fb950;display:flex;align-items:center;gap:8px;margin-top:14px}
+.rubric-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid #21262d;font-size:12px}
+.rubric-row:last-child{border-bottom:none}
+.rubric-section{flex:1;color:#c9d1d9}
+.rubric-pts{color:#d29922;font-weight:500;min-width:38px}
+.rubric-bar-wrap{flex:2;background:#21262d;border-radius:3px;height:6px}
+.rubric-bar{height:6px;border-radius:3px}
+.extra-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid #21262d;font-size:12px;color:#c9d1d9}
+.extra-item:last-child{border-bottom:none}
+.star{color:#d29922}
+.prompt-btn{background:#161b22;border:0.5px solid #30363d;border-radius:5px;padding:5px 12px;font-size:11px;color:#58a6ff;cursor:pointer;font-family:var(--font-mono);transition:background .15s;display:inline-flex;align-items:center;gap:5px;margin-top:10px}
+.prompt-btn:hover{background:#21262d}
+@media(max-width:500px){.grid2{grid-template-columns:1fr}}
+</style>
+
+<div class="shell">
+  <div class="titlebar">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <span class="filename">README.md — faizan-auth-assignment</span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-tab="overview">overview</div>
+    <div class="tab" data-tab="structure">structure</div>
+    <div class="tab" data-tab="setup">setup</div>
+    <div class="tab" data-tab="tests">tests</div>
+    <div class="tab" data-tab="pipeline">pipeline</div>
+    <div class="tab" data-tab="submission">submission</div>
+    <div class="tab" data-tab="rubric">rubric</div>
+  </div>
+
+  <div class="content" id="main-content">
+
+    <div id="tab-overview">
+      <div class="meta-row"><span class="meta-label">author</span><span class="meta-val">Faizan Yousaf</span></div>
+      <div class="meta-row"><span class="meta-label">date</span><span class="meta-val">2026-04-15</span></div>
+      <div class="meta-row"><span class="meta-label">stack</span>
+        <span class="badge blue">Node.js</span>
+        <span class="badge blue">Express</span>
+        <span class="badge purple">Mocha</span>
+        <span class="badge purple">Chai</span>
+        <span class="badge yellow">Jenkins</span>
+      </div>
+      <hr class="divider">
+      <div class="section-title">// what this project does</div>
+      <p style="color:#8b949e;font-size:13px;line-height:1.8">A Node.js + Express authentication system (Login / Signup) validated with a POM-based Mocha + Chai test suite, integrated into a Jenkins CI/CD pipeline that installs deps, runs unit & integration tests, and publishes HTML reports.</p>
+      <hr class="divider">
+      <div class="section-title">// testing purpose</div>
+      <p style="color:#8b949e;font-size:13px;line-height:1.8">Automation catches regressions in validation logic and UI behaviour without manual retesting on every commit. POM keeps locators centralized — one change, not twenty.</p>
+      <button class="prompt-btn" onclick="sendPrompt('Explain why POM (Page Object Model) matters in test automation')">What is POM and why use it? ↗</button>
+    </div>
+
+    <div id="tab-structure" class="hidden">
+      <div class="section-title">// project layout</div>
+      <div class="folder-tree">
+        <div><span style="color:#d29922">project/</span></div>
+        <div>&nbsp;├── <span class="dir">src/</span> <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← app logic</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">app.js</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">server.js</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">validation.js</span> <span class="comment">&nbsp;← pure logic, unit-testable</span></div>
+        <div>&nbsp;├── <span class="dir">tests/</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="dir">unit/</span> <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← validation logic tests</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">validation.test.js</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="dir">integration/</span> <span class="comment">&nbsp;← form + UI tests</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">auth.test.js</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="dir">pages/</span> <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← POM classes</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">LoginPage.js</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">SignupPage.js</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="dir">utils/</span> <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← shared helpers</span></div>
+        <div>&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="file">helper.js</span></div>
+        <div>&nbsp;├── <span class="file">package.json</span></div>
+        <div>&nbsp;└── <span class="file">Jenkinsfile</span></div>
+      </div>
+      <hr class="divider">
+      <div class="section-title">// page object model pattern</div>
+      <p style="color:#8b949e;font-size:12px;margin-bottom:8px">Each Page class owns: locators → actions → assertions. Tests never touch raw selectors.</p>
+      <div class="code-block"><span style="color:#3fb950">// LoginPage.js (pattern)</span><br><span style="color:#ff7b72">class</span> <span style="color:#ffa657">LoginPage</span> {<br>&nbsp;&nbsp;<span style="color:#d2a8ff">fill</span>(email, pass) { ... }<br>&nbsp;&nbsp;<span style="color:#d2a8ff">submit</span>() { ... }<br>&nbsp;&nbsp;<span style="color:#d2a8ff">getError</span>() { ... }<br>}</div>
+    </div>
+
+    <div id="tab-setup" class="hidden">
+      <div class="section-title">// prerequisites</div>
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="info-card"><div class="info-card-label">runtime</div><div class="info-card-val">Node.js v18.x</div></div>
+        <div class="info-card"><div class="info-card-label">package manager</div><div class="info-card-val">npm</div></div>
+        <div class="info-card"><div class="info-card-label">ci server</div><div class="info-card-val">Jenkins (WAR)</div></div>
+        <div class="info-card"><div class="info-card-label">vcs</div><div class="info-card-val">Git</div></div>
+      </div>
+      <hr class="divider">
+      <div class="section-title">// install & run</div>
+      <div class="code-block">
+        <span style="color:#8b949e"># 1 — install all deps (including mocha + chai as dev)</span><br>
+        <span class="cmd">npm</span> install<br><br>
+        <span style="color:#8b949e"># 2 — start the app</span><br>
+        <span class="cmd">npm</span> start<br><br>
+        <span style="color:#8b949e"># 3 — verify in browser</span><br>
+        <span style="color:#a5d6ff">http://localhost:3000/login</span><br>
+        <span style="color:#a5d6ff">http://localhost:3000/signup</span>
+      </div>
+      <div class="checkpoint">✓ checkpoint — app runs on :3000 with no errors</div>
+      <hr class="divider">
+      <div class="section-title">// test commands</div>
+      <div class="code-block">
+        <span class="cmd">npm</span> <span class="flag">test</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#8b949e"># all tests</span><br>
+        <span class="cmd">npm</span> <span class="flag">run</span> test:unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#8b949e"># unit only</span><br>
+        <span class="cmd">npm</span> <span class="flag">run</span> test:integration&nbsp; <span style="color:#8b949e"># integration only</span><br>
+        <span class="cmd">npm</span> <span class="flag">run</span> test:ci&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#8b949e"># junit xml report</span>
+      </div>
+    </div>
+
+    <div id="tab-tests" class="hidden">
+      <div class="section-title">// test summary</div>
+      <table class="test-table">
+        <thead><tr><th>type</th><th>count</th><th>status</th><th>covers</th></tr></thead>
+        <tbody>
+          <tr><td>Unit</td><td>12</td><td><span class="badge green">pass</span></td><td>email / password / username validation</td></tr>
+          <tr><td>Integration</td><td>18+</td><td><span class="badge green">pass</span></td><td>login, signup, edge cases</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>30+</strong></td><td><span class="badge green">pass</span></td><td>—</td></tr>
+        </tbody>
+      </table>
+      <hr class="divider">
+      <div class="section-title">// unit test cases</div>
+      <div style="font-size:12px;color:#8b949e;line-height:2">
+        <div><span class="badge green" style="margin-right:6px">✓</span>valid email format</div>
+        <div><span class="badge green" style="margin-right:6px">✓</span>email missing @ symbol</div>
+        <div><span class="badge green" style="margin-right:6px">✓</span>email missing domain</div>
+        <div><span class="badge green" style="margin-right:6px">✓</span>empty email field</div>
+        <div><span class="badge green" style="margin-right:6px">✓</span>password ≥ 6 chars (valid)</div>
+        <div><span class="badge green" style="margin-right:6px">✓</span>password &lt; 6 chars (invalid)</div>
+        <div><span class="badge green" style="margin-right:6px">✓</span>username ≥ 3 chars (valid)</div>
+        <div><span class="badge green" style="margin-right:6px">✓</span>username &lt; 3 chars (invalid)</div>
+      </div>
+      <hr class="divider">
+      <div class="section-title">// integration + advanced cases</div>
+      <div style="font-size:12px;color:#8b949e;line-height:2">
+        <div><span class="badge blue" style="margin-right:6px">UI</span>valid login → success redirect</div>
+        <div><span class="badge blue" style="margin-right:6px">UI</span>wrong password → error message</div>
+        <div><span class="badge blue" style="margin-right:6px">UI</span>non-existing user → validation message</div>
+        <div><span class="badge blue" style="margin-right:6px">UI</span>empty form submit → required errors</div>
+        <div><span class="badge blue" style="margin-right:6px">UI</span>invalid email format on login</div>
+        <div><span class="badge blue" style="margin-right:6px">UI</span>valid signup → success message</div>
+        <div><span class="badge blue" style="margin-right:6px">UI</span>signup missing fields → errors</div>
+        <div><span class="badge blue" style="margin-right:6px">UI</span>short password on signup</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>random/incorrect data auto-fill</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>boundary testing (min/max lengths)</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>special characters in all fields</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>rapid multiple form submissions</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>whitespace-only inputs</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>SQL injection strings in fields</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>very long input strings (overflow)</div>
+        <div><span class="badge purple" style="margin-right:6px">ADV</span>case sensitivity (email/username)</div>
+      </div>
+    </div>
+
+    <div id="tab-pipeline" class="hidden">
+      <div class="section-title">// jenkinsfile stages</div>
+      <div class="stage">
+        <div class="stage-num">1</div>
+        <div class="stage-content">
+          <div class="stage-title">checkout</div>
+          <div class="stage-desc">Pull source from Git. Branch: main.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">2</div>
+        <div class="stage-content">
+          <div class="stage-title">install dependencies</div>
+          <div class="stage-desc">Runs <code style="background:#161b22;padding:1px 5px;border-radius:3px;color:#a5d6ff">npm ci</code> — clean install, reproducible. Faster than npm install in CI.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">3</div>
+        <div class="stage-content">
+          <div class="stage-title">run unit tests</div>
+          <div class="stage-desc">Executes <code style="background:#161b22;padding:1px 5px;border-radius:3px;color:#a5d6ff">npm run test:unit</code>. Fails stage on any test failure.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">4</div>
+        <div class="stage-content">
+          <div class="stage-title">run integration tests</div>
+          <div class="stage-desc">Executes <code style="background:#161b22;padding:1px 5px;border-radius:3px;color:#a5d6ff">npm run test:integration</code>. Requires app running or supertest.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">5</div>
+        <div class="stage-content">
+          <div class="stage-title">generate reports</div>
+          <div class="stage-desc">Publishes HTML report via HTML Publisher Plugin. JUnit XML parsed by Jenkins for trend graphs.</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="section-title">// post-build actions</div>
+      <div style="font-size:12px;color:#8b949e;line-height:2">
+        <div><span class="badge green" style="margin-right:6px">success</span>Archive test reports, mark build green</div>
+        <div><span class="badge red" style="margin-right:6px">failure</span>Print error summary, mark build red</div>
+      </div>
+      <div class="checkpoint">✓ checkpoint — all 5 stages green, reports published</div>
+    </div>
+
+    <div id="tab-submission" class="hidden">
+      <div class="section-title">// required artifacts</div>
+      <div class="artifact-row"><span class="artifact-icon">▶</span><span class="artifact-name">Demo video (2–3 min strict)</span><span class="badge yellow">required</span></div>
+      <div class="artifact-row"><span class="artifact-icon">⌥</span><span class="artifact-name">GitHub repo link</span><span class="badge yellow">required</span></div>
+      <div class="artifact-row"><span class="artifact-icon">□</span><span class="artifact-name">Screenshot: all local tests passing</span><span class="badge yellow">required</span></div>
+      <div class="artifact-row"><span class="artifact-icon">□</span><span class="artifact-name">Screenshot: Jenkins successful build</span><span class="badge yellow">required</span></div>
+      <div class="artifact-row"><span class="artifact-icon">□</span><span class="artifact-name">Screenshot: Jenkins test report</span><span class="badge yellow">required</span></div>
+      <hr class="divider">
+      <div class="section-title">// video must cover</div>
+      <div style="font-size:12px;color:#8b949e;line-height:2">
+        <div>1. Your name + assignment objective</div>
+        <div>2. Folder structure walkthrough</div>
+        <div>3. Login / Signup demo</div>
+        <div>4. POM structure explanation</div>
+        <div>5. Run tests locally → show passing</div>
+        <div>6. Jenkins job config + build execution</div>
+        <div>7. Key learnings</div>
+      </div>
+      <hr class="divider">
+      <div class="section-title">// extra credit (+10 pts)</div>
+      <div class="extra-item"><span class="star">★</span><div><strong style="color:#d29922">nyc code coverage</strong><br><span style="color:#8b949e">Add nyc, run with coverage flag, add % to README</span></div></div>
+      <div class="extra-item"><span class="star">★</span><div><strong style="color:#d29922">jenkins email notification</strong><br><span style="color:#8b949e">Configure Email Extension plugin, notify on fail/pass</span></div></div>
+      <div class="extra-item"><span class="star">★</span><div><strong style="color:#d29922">multi-branch pipeline</strong><br><span style="color:#8b949e">Scan repo branches, run pipeline per branch</span></div></div>
+      <div class="extra-item"><span class="star">★</span><div><strong style="color:#d29922">advanced edge-case testing</strong><br><span style="color:#8b949e">SQL injection, unicode, overflow — beyond basic cases</span></div></div>
+    </div>
+
+    <div id="tab-rubric" class="hidden">
+      <div class="section-title">// grading breakdown</div>
+      <div class="rubric-row">
+        <div class="rubric-section">Setup</div>
+        <div class="rubric-pts">10 pts</div>
+        <div class="rubric-bar-wrap"><div class="rubric-bar" style="width:10%;background:#3fb950"></div></div>
+      </div>
+      <div class="rubric-row">
+        <div class="rubric-section">Testing (POM + coverage)</div>
+        <div class="rubric-pts">40 pts</div>
+        <div class="rubric-bar-wrap"><div class="rubric-bar" style="width:40%;background:#58a6ff"></div></div>
+      </div>
+      <div class="rubric-row">
+        <div class="rubric-section">Jenkins pipeline</div>
+        <div class="rubric-pts">30 pts</div>
+        <div class="rubric-bar-wrap"><div class="rubric-bar" style="width:30%;background:#d29922"></div></div>
+      </div>
+      <div class="rubric-row">
+        <div class="rubric-section">Video demo</div>
+        <div class="rubric-pts">10 pts</div>
+        <div class="rubric-bar-wrap"><div class="rubric-bar" style="width:10%;background:#bc8cff"></div></div>
+      </div>
+      <div class="rubric-row">
+        <div class="rubric-section">Documentation</div>
+        <div class="rubric-pts">10 pts</div>
+        <div class="rubric-bar-wrap"><div class="rubric-bar" style="width:10%;background:#f0883e"></div></div>
+      </div>
+      <hr class="divider">
+      <div style="display:flex;justify-content:space-between;font-size:13px">
+        <span style="color:#8b949e">base total</span><span style="color:#e6edf3;font-weight:500">100 pts</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-top:6px">
+        <span style="color:#d29922">extra credit</span><span style="color:#d29922;font-weight:500">+10 pts</span>
+      </div>
+      <hr class="divider">
+      <button class="prompt-btn" onclick="sendPrompt('What are the most common mistakes students make in this kind of CI/CD assignment?')">What mistakes should I avoid? ↗</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+tabs.forEach(t => {
+  t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('[id^="tab-"]').forEach(s => s.classList.add('hidden'));
+    document.getElementById('tab-' + t.dataset.tab).classList.remove('hidden');
+  });
+});
+</script>

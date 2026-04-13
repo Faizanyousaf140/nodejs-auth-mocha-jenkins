@@ -1,0 +1,31 @@
+Section,Test Case,Status,Execution Time (ms)
+"Integration Tests","Auth Integration Tests (POM) Login Page Scenarios allows login with valid credentials","Pass",103
+"Integration Tests","Auth Integration Tests (POM) Login Page Scenarios shows error when password is wrong","Pass",16
+"Integration Tests","Auth Integration Tests (POM) Login Page Scenarios shows message for non-existing user","Pass",8
+"Integration Tests","Auth Integration Tests (POM) Login Page Scenarios shows required-field errors on empty login form","Pass",11
+"Integration Tests","Auth Integration Tests (POM) Login Page Scenarios shows invalid email format message on login","Pass",8
+"Integration Tests","Auth Integration Tests (POM) Signup Page Scenarios registers a user with valid data","Pass",8
+"Integration Tests","Auth Integration Tests (POM) Signup Page Scenarios shows errors for missing fields","Pass",8
+"Integration Tests","Auth Integration Tests (POM) Signup Page Scenarios shows error for short password","Pass",7
+"Integration Tests","Auth Integration Tests (POM) Signup Page Scenarios shows error for invalid email","Pass",8
+"Integration Tests","Auth Integration Tests (POM) Signup Page Scenarios shows error for short username","Pass",8
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios rejects random invalid email inputs","Pass",34
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios accepts boundary username length of 3 characters","Pass",6
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios accepts boundary password length of 6 characters","Pass",5
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios rejects special characters in username","Pass",6
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios normalizes email casing and allows login","Pass",9
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios handles rapid multiple submissions by rejecting duplicate email","Pass",11
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios rejects username longer than 30 characters","Pass",4
+"Integration Tests","Auth Integration Tests (POM) Advanced Interaction Scenarios rejects password containing spaces","Pass",5
+"Unit Tests","Validation Logic Unit Tests Email Validation accepts valid email format","Pass",0
+"Unit Tests","Validation Logic Unit Tests Email Validation rejects missing @ symbol","Pass",0
+"Unit Tests","Validation Logic Unit Tests Email Validation rejects missing domain","Pass",1
+"Unit Tests","Validation Logic Unit Tests Email Validation rejects empty email","Pass",0
+"Unit Tests","Validation Logic Unit Tests Password Validation accepts password with 6 or more characters","Pass",0
+"Unit Tests","Validation Logic Unit Tests Password Validation rejects short password","Pass",0
+"Unit Tests","Validation Logic Unit Tests Username Validation accepts username with 3 or more characters","Pass",1
+"Unit Tests","Validation Logic Unit Tests Username Validation rejects username shorter than 3 chars","Pass",0
+
+Summary Section,Pass,Fail,Total Time (ms)
+"Integration Tests",18,0,265
+"Unit Tests",8,0,2

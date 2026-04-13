@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.332" tests="26" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-04-13T18:12:30" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Auth Integration Tests (POM)" timestamp="2026-04-13T18:12:30" tests="0" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\integration\auth.test.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Login Page Scenarios" timestamp="2026-04-13T18:12:30" tests="5" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\integration\auth.test.js" time="0.136" failures="0">
+    <testcase name="Auth Integration Tests (POM) Login Page Scenarios allows login with valid credentials" time="0.084" classname="allows login with valid credentials">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Login Page Scenarios shows error when password is wrong" time="0.011" classname="shows error when password is wrong">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Login Page Scenarios shows message for non-existing user" time="0.009" classname="shows message for non-existing user">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Login Page Scenarios shows required-field errors on empty login form" time="0.012" classname="shows required-field errors on empty login form">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Login Page Scenarios shows invalid email format message on login" time="0.011" classname="shows invalid email format message on login">
+    </testcase>
+  </testsuite>
+  <testsuite name="Signup Page Scenarios" timestamp="2026-04-13T18:12:30" tests="5" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\integration\auth.test.js" time="0.066" failures="0">
+    <testcase name="Auth Integration Tests (POM) Signup Page Scenarios registers a user with valid data" time="0.012" classname="registers a user with valid data">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Signup Page Scenarios shows errors for missing fields" time="0.012" classname="shows errors for missing fields">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Signup Page Scenarios shows error for short password" time="0.011" classname="shows error for short password">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Signup Page Scenarios shows error for invalid email" time="0.012" classname="shows error for invalid email">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Signup Page Scenarios shows error for short username" time="0.013" classname="shows error for short username">
+    </testcase>
+  </testsuite>
+  <testsuite name="Advanced Interaction Scenarios" timestamp="2026-04-13T18:12:30" tests="8" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\integration\auth.test.js" time="0.123" failures="0">
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios rejects random invalid email inputs" time="0.051" classname="rejects random invalid email inputs">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios accepts boundary username length of 3 characters" time="0.008" classname="accepts boundary username length of 3 characters">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios accepts boundary password length of 6 characters" time="0.006" classname="accepts boundary password length of 6 characters">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios rejects special characters in username" time="0.008" classname="rejects special characters in username">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios normalizes email casing and allows login" time="0.013" classname="normalizes email casing and allows login">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios handles rapid multiple submissions by rejecting duplicate email" time="0.014" classname="handles rapid multiple submissions by rejecting duplicate email">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios rejects username longer than 30 characters" time="0.008" classname="rejects username longer than 30 characters">
+    </testcase>
+    <testcase name="Auth Integration Tests (POM) Advanced Interaction Scenarios rejects password containing spaces" time="0.008" classname="rejects password containing spaces">
+    </testcase>
+  </testsuite>
+  <testsuite name="Validation Logic Unit Tests" timestamp="2026-04-13T18:12:30" tests="0" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\unit\validation.test.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Email Validation" timestamp="2026-04-13T18:12:30" tests="4" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\unit\validation.test.js" time="0.001" failures="0">
+    <testcase name="Validation Logic Unit Tests Email Validation accepts valid email format" time="0.000" classname="accepts valid email format">
+    </testcase>
+    <testcase name="Validation Logic Unit Tests Email Validation rejects missing @ symbol" time="0.000" classname="rejects missing @ symbol">
+    </testcase>
+    <testcase name="Validation Logic Unit Tests Email Validation rejects missing domain" time="0.000" classname="rejects missing domain">
+    </testcase>
+    <testcase name="Validation Logic Unit Tests Email Validation rejects empty email" time="0.001" classname="rejects empty email">
+    </testcase>
+  </testsuite>
+  <testsuite name="Password Validation" timestamp="2026-04-13T18:12:30" tests="2" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\unit\validation.test.js" time="0.000" failures="0">
+    <testcase name="Validation Logic Unit Tests Password Validation accepts password with 6 or more characters" time="0.000" classname="accepts password with 6 or more characters">
+    </testcase>
+    <testcase name="Validation Logic Unit Tests Password Validation rejects short password" time="0.000" classname="rejects short password">
+    </testcase>
+  </testsuite>
+  <testsuite name="Username Validation" timestamp="2026-04-13T18:12:30" tests="2" file="E:\G DRIVE\Study\8th Semester\Software Testing\Assignments\Assignment#04\tests\unit\validation.test.js" time="0.001" failures="0">
+    <testcase name="Validation Logic Unit Tests Username Validation accepts username with 3 or more characters" time="0.000" classname="accepts username with 3 or more characters">
+    </testcase>
+    <testcase name="Validation Logic Unit Tests Username Validation rejects username shorter than 3 chars" time="0.001" classname="rejects username shorter than 3 chars">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,35 @@
+{
+  "name": "auth-app",
+  "version": "1.0.0",
+  "description": "Node.js Login/Signup app with Mocha/Chai tests and Jenkins pipeline",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "mocha \"tests/**/*.test.js\"",
+    "test:unit": "mocha \"tests/unit/**/*.test.js\"",
+    "test:integration": "mocha \"tests/integration/**/*.test.js\"",
+    "test:ci": "mocha \"tests/**/*.test.js\" --reporter mocha-junit-reporter --reporter-options mochaFile=reports/junit/test-results.xml"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "authentication",
+    "mocha",
+    "chai",
+    "jenkins"
+  ],
+  "author": "Student Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "pdfkit": "^0.16.0"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "cheerio": "^1.0.0",
+    "mocha": "^11.7.5",
+    "mocha-junit-reporter": "^2.2.1",
+    "mocha-multi-reporters": "^1.5.1",
+    "supertest": "^7.1.1"
+  }
+}
