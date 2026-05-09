@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  tools {
+    nodejs 'nodejs'
+  }
+
   stages {
     stage('Checkout') {
       steps {
@@ -16,7 +20,23 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('Unit Tests') {
+      steps {
+        script {
+          runCommand('npm run test:unit')
+        }
+      }
+    }
+
+    stage('Integration Tests') {
+      steps {
+        script {
+          runCommand('npm run test:integration')
+        }
+      }
+    }
+
+    stage('Generate Report') {
       steps {
         script {
           runCommand('npm run test:ci')
