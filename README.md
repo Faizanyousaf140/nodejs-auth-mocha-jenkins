@@ -107,6 +107,12 @@ Open in browser:
 - http://localhost:3000/login
 - http://localhost:3000/signup
 
+### Brief API Routes
+
+- `GET /api/health` returns a compact health check.
+- `GET /api/tests/summary` returns the current test totals in JSON.
+- `GET /api/me` returns the signed-in user's profile in JSON.
+
 > **Checkpoint:** App runs on port 3000 with no errors.
 
 ---
@@ -136,8 +142,8 @@ npm run test:ci
 | Type | Count | Status |
 |---|---|---|
 | Unit Tests | 8 | ✅ Pass |
-| Integration Tests | 18 | ✅ Pass |
-| **Total** | **26** | **✅ Pass** |
+| Integration Tests | 21 | ✅ Pass |
+| **Total** | **29** | **✅ Pass** |
 
 ### Unit Tests — Validation Logic
 

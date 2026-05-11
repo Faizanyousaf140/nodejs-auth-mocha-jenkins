@@ -225,4 +225,40 @@ describe("Auth Integration Tests (POM)", () => {
       expect(signupPage.hasValidationError(response, "Password must be 6-64 characters with no spaces")).to.equal(true);
     });
   });
+
+  describe("API Routes", () => {
+    it("returns a brief health response", async () => {
+      const response = await client.get("/api/health");
+
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal({
+        status: "ok",
+        app: "auth-app"
+      });
+    });
+
+    it("returns a short test summary", async () => {
+      const response = await client.get("/api/tests/summary");
+
+      expect(response.status).to.equal(200);
+      expect(response.body.counts.total).to.equal(29);
+      expect(response.body.sections).to.deep.equal(["unit", "integration", "system"]);
+    });
+
+    it("returns the current user profile after login", async () => {
+      const loginResponse = await loginPage.submit({
+        email: "demo@example.com",
+        password: "secret123"
+      });
+
+      const cookieHeader = loginResponse.headers["set-cookie"][0];
+      const profileResponse = await client.get("/api/me").set("Cookie", cookieHeader);
+
+      expect(profileResponse.status).to.equal(200);
+      expect(profileResponse.body).to.deep.equal({
+        username: "demo_user",
+        email: "demo@example.com"
+      });
+    });
+  });
 });

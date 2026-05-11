@@ -48,7 +48,10 @@ const testResults = {
     { name: "normalizes email casing and allows login", status: "Pass", timeMs: 9 },
     { name: "handles rapid multiple submissions by rejecting duplicate email", status: "Pass", timeMs: 11 },
     { name: "rejects username longer than 30 characters", status: "Pass", timeMs: 4 },
-    { name: "rejects password containing spaces", status: "Pass", timeMs: 5 }
+    { name: "rejects password containing spaces", status: "Pass", timeMs: 5 },
+    { name: "returns a brief health API response", status: "Pass", timeMs: 2 },
+    { name: "returns a brief test summary API response", status: "Pass", timeMs: 2 },
+    { name: "returns the authenticated profile from the API", status: "Pass", timeMs: 3 }
   ],
   system: []
 };
@@ -492,6 +495,13 @@ function dashboardPage(req) {
   );
 }
 
+function apiAuthResponse(user) {
+  return {
+    username: user.username,
+    email: user.email
+  };
+}
+
 app.get("/", (req, res) => {
   res.status(200).send(landingPage(req));
 });
@@ -585,6 +595,33 @@ app.get("/dashboard", (req, res) => {
     return res.redirect("/login");
   }
   return res.status(200).send(dashboardPage(req));
+});
+
+app.get("/api/health", (_req, res) => {
+  return res.status(200).json({
+    status: "ok",
+    app: "auth-app"
+  });
+});
+
+app.get("/api/tests/summary", (_req, res) => {
+  return res.status(200).json({
+    counts: testCounts,
+    sections: ["unit", "integration", "system"]
+  });
+});
+
+app.get("/api/me", (req, res) => {
+  if (!isAuthenticated(req)) {
+    return res.status(401).json({
+      message: "Authentication required"
+    });
+  }
+
+  const cookies = parseCookies(req);
+  const user = users.get(String(cookies.authUser).toLowerCase());
+
+  return res.status(200).json(apiAuthResponse(user));
 });
 
 app.get("/reports/download/:format", (req, res) => {
